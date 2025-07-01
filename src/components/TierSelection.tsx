@@ -1,67 +1,54 @@
 import { useState } from "react";
 import { Zap, Star, Crown, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
 
 interface TierSelectionProps {
   onTierSelect: (tier: string) => void;
   selectedTier: string | null;
+  handleApplyCssFilter: (level: string) => void;
 }
 
-const TierSelection = ({ onTierSelect, selectedTier }: TierSelectionProps) => {
+const TierSelection = ({
+  onTierSelect,
+  selectedTier,
+  handleApplyCssFilter,
+}: TierSelectionProps) => {
   const [isRendering, setIsRendering] = useState(false);
 
   const tiers = [
     {
       id: "basic",
-      name: "Basic",
-      price: "$2.99",
+      name: "Holiday Glow",
+      description:
+        "A soft touch of Christmas lights and warmth — subtle and serene.",
       icon: Zap,
       color: "from-gray-500 to-gray-600",
-      features: [
-        "Standard AI processing",
-        "2-3 second render time",
-        "Basic lighting effects",
-        "Standard resolution",
-      ],
       recommended: false,
     },
     {
       id: "better",
-      name: "Better",
-      price: "$4.99",
+      name: "Festive Charm",
+      description:
+        "Cozy lighting, elegant garlands, and a dash of seasonal spirit.",
       icon: Star,
       color: "from-blue-500 to-blue-600",
-      features: [
-        "Enhanced AI processing",
-        "1-2 second render time",
-        "Advanced lighting effects",
-        "High resolution output",
-        "Dusk filter included",
-      ],
-      recommended: true,
+      recommended: false,
     },
     {
       id: "best",
-      name: "Best",
-      price: "$7.99",
+      name: "Winter Wonderland",
+      description:
+        "A full holiday makeover — twinkling lights, lush decor, and magic in every corner.",
       icon: Crown,
       color: "from-purple-500 to-purple-600",
-      features: [
-        "Premium AI processing",
-        "Sub-1 second render time",
-        "Professional lighting suite",
-        "Ultra-high resolution",
-        "Multiple filter options",
-        "Priority processing",
-      ],
       recommended: false,
     },
   ];
@@ -73,6 +60,7 @@ const TierSelection = ({ onTierSelect, selectedTier }: TierSelectionProps) => {
     // Simulate rendering process
     await new Promise((resolve) => setTimeout(resolve, 3000));
     setIsRendering(false);
+    handleApplyCssFilter(tierId);
   };
 
   if (isRendering) {
@@ -108,7 +96,7 @@ const TierSelection = ({ onTierSelect, selectedTier }: TierSelectionProps) => {
 
   return (
     <div className="grid md:grid-cols-3 gap-6">
-      {tiers.map((tier) => {
+      {tiers?.map((tier) => {
         const IconComponent = tier.icon;
         const isSelected = selectedTier === tier.id;
 
@@ -136,16 +124,14 @@ const TierSelection = ({ onTierSelect, selectedTier }: TierSelectionProps) => {
               </div>
               <CardTitle className="text-white">{tier.name}</CardTitle>
               <CardDescription className="text-2xl font-bold text-white">
-                {tier.price}
                 <span className="text-sm text-gray-400 font-normal">
-                  {" "}
-                  per render
+                  {tier.description}
                 </span>
               </CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-4">
-              <ul className="space-y-2">
+              {/* <ul className="space-y-2">
                 {tier.features.map((feature, index) => (
                   <li
                     key={index}
@@ -155,14 +141,14 @@ const TierSelection = ({ onTierSelect, selectedTier }: TierSelectionProps) => {
                     {feature}
                   </li>
                 ))}
-              </ul>
+              </ul> */}
 
-              <Button
+              {/* <Button
                 className={`w-full bg-gradient-to-r ${tier.color} hover:opacity-90 text-white`}
                 disabled={isRendering}
               >
                 {isSelected ? "Selected" : `Render with ${tier.name}`}
-              </Button>
+              </Button> */}
             </CardContent>
           </Card>
         );
